@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.DrawerValue
@@ -33,6 +34,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.monitoreosilos.ui.screen.AjustesScreen
 import com.example.monitoreosilos.ui.screen.AlertasScreen
 import com.example.monitoreosilos.ui.screen.ContactoScreen
 import com.example.monitoreosilos.ui.screen.HomeScreen
@@ -40,6 +42,7 @@ import com.example.monitoreosilos.ui.screen.PerfilScreen
 import com.example.monitoreosilos.ui.screen.RegistroScreen
 import com.example.monitoreosilos.ui.screen.ResumenScreen
 import com.example.monitoreosilos.ui.screen.SilosScreen
+import com.example.monitoreosilos.ui.viewmodel.AjustesViewModel
 import com.example.monitoreosilos.ui.viewmodel.MainViewModel
 import com.example.monitoreosilos.ui.viewmodel.UsuarioViewModel
 import kotlinx.coroutines.launch
@@ -58,8 +61,9 @@ private val destinosBarra = listOf(
     Destino(AppRoutes.PERFIL, "Perfil", Icons.Default.Person)
 )
 
-// El Drawer incluye además Registro y Contacto
+// El Drawer incluye además Ajustes, Registro y Contacto
 private val destinosDrawer = destinosBarra + listOf(
+    Destino(AppRoutes.AJUSTES, "Ajustes", Icons.Default.Settings),
     Destino(AppRoutes.REGISTRO, "Registro", Icons.Default.PersonAdd),
     Destino(AppRoutes.CONTACTO, "Contacto", Icons.Default.Phone)
 )
@@ -72,6 +76,9 @@ fun AppNavigation() {
 
     // ViewModel compartido entre Registro y Resumen (mismo alcance: la Activity)
     val usuarioViewModel: UsuarioViewModel = viewModel()
+
+    // ViewModel de preferencias (DataStore), compartido por Ajustes y Alertas
+    val ajustesViewModel: AjustesViewModel = viewModel()
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -160,7 +167,12 @@ fun AppNavigation() {
                     )
                 }
                 composable(AppRoutes.SILOS) { SilosScreen(viewModel) }
-                composable(AppRoutes.ALERTAS) { AlertasScreen(viewModel) }
+                composable(AppRoutes.ALERTAS) {
+                    AlertasScreen(
+                        viewModel = viewModel,
+                        ajustesViewModel = ajustesViewModel
+                    )
+                }
                 composable(AppRoutes.PERFIL) {
                     PerfilScreen(
                         viewModel = viewModel,
@@ -181,6 +193,7 @@ fun AppNavigation() {
                         onInicioClick = { irA(AppRoutes.HOME) }
                     )
                 }
+                composable(AppRoutes.AJUSTES) { AjustesScreen(ajustesViewModel) }
             }
         }
     }

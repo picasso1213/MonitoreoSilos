@@ -8,4 +8,5 @@ object AppRoutes {
     const val CONTACTO = "contacto"
     const val REGISTRO = "registro"
     const val RESUMEN = "resumen"
+    const val AJUSTES = "ajustes"
 }
