@@ -12,6 +12,9 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PersonAdd
+import androidx.compose.material.icons.filled.Cloud
+import com.example.monitoreosilos.ui.screen.PostScreen
+import com.example.monitoreosilos.ui.viewmodel.PostViewModel
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.Settings
@@ -84,7 +87,8 @@ private val destinosDrawer = destinosBarra + listOf(
     Destino(AppRoutes.EVIDENCIA, "Evidencia", Icons.Default.PhotoCamera),
     Destino(AppRoutes.AJUSTES, "Ajustes", Icons.Default.Settings),
     Destino(AppRoutes.REGISTRO, "Registro", Icons.Default.PersonAdd),
-    Destino(AppRoutes.CONTACTO, "Contacto", Icons.Default.Phone)
+    Destino(AppRoutes.CONTACTO, "Contacto", Icons.Default.Phone),
+    Destino(AppRoutes.PUBLICACIONES, "Publicaciones", Icons.Default.Cloud),
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -102,6 +106,9 @@ fun AppNavigation() {
 
     // ViewModel de la evidencia fotográfica (cámara y galería)
     val camaraViewModel: CamaraGaleriaViewModel = viewModel()
+
+    // ViewModel de la API REST (Retrofit, Guía 15)
+    val postViewModel: PostViewModel = viewModel()
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -264,6 +271,8 @@ fun AppNavigation() {
                             mainViewModel = viewModel
                         )
                     }
+
+                    composable(AppRoutes.PUBLICACIONES) { PostScreen(postViewModel) }
                 }
             }
         }
