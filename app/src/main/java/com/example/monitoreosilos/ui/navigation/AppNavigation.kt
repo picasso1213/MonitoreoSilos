@@ -64,6 +64,9 @@ import com.example.monitoreosilos.ui.viewmodel.CamaraGaleriaViewModel
 import com.example.monitoreosilos.ui.viewmodel.MainViewModel
 import com.example.monitoreosilos.ui.viewmodel.UsuarioViewModel
 import kotlinx.coroutines.launch
+import androidx.compose.material.icons.filled.Info
+import com.example.monitoreosilos.ui.screen.AvisosScreen
+import com.example.monitoreosilos.ui.viewmodel.PostViewModel
 
 // Describe cada destino una sola vez; lo usan la NavigationBar y el Drawer
 private data class Destino(
@@ -82,9 +85,12 @@ private val destinosBarra = listOf(
 // El Drawer incluye además Evidencia, Ajustes, Registro y Contacto
 private val destinosDrawer = destinosBarra + listOf(
     Destino(AppRoutes.EVIDENCIA, "Evidencia", Icons.Default.PhotoCamera),
+    Destino(AppRoutes.AVISOS, "Avisos", Icons.Default.Info),
     Destino(AppRoutes.AJUSTES, "Ajustes", Icons.Default.Settings),
     Destino(AppRoutes.REGISTRO, "Registro", Icons.Default.PersonAdd),
+
     Destino(AppRoutes.CONTACTO, "Contacto", Icons.Default.Phone)
+
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -263,6 +269,10 @@ fun AppNavigation() {
                             viewModel = camaraViewModel,
                             mainViewModel = viewModel
                         )
+                    }
+                    composable(AppRoutes.AVISOS) {
+                        val postViewModel: PostViewModel = viewModel()
+                        AvisosScreen(postViewModel)
                     }
                 }
             }

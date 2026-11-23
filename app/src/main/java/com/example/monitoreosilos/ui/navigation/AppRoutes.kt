@@ -11,4 +11,6 @@ object AppRoutes {
     const val AJUSTES = "ajustes"
 
     const val EVIDENCIA = "evidencia"
+
+    const val AVISOS = "avisos"
 }
