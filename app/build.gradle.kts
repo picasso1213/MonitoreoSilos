@@ -20,8 +20,21 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = rootProject.file("keystore/monitoreo-silos.jks")
+            storePassword = "silos2026"
+            keyAlias = "monitoreosilos"
+            keyPassword = "silos2026"
+        }
+    }
+
     buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+        }
         release {
+            signingConfig = signingConfigs.getByName("release")
             optimization {
                 enable = false
                 packageScope = setOf("androidx.**", "kotlin.**", "kotlinx.**")
@@ -57,6 +70,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
     testImplementation(libs.junit)
+    testImplementation("io.mockk:mockk:1.14.12")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.11.0")
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)
