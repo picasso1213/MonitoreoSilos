@@ -44,6 +44,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.material.icons.filled.Cloud
+import com.example.monitoreosilos.ui.screen.GestionScreen
+import com.example.monitoreosilos.ui.viewmodel.GestionViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -88,6 +91,7 @@ private val destinosDrawer = destinosBarra + listOf(
     Destino(AppRoutes.AVISOS, "Avisos", Icons.Default.Info),
     Destino(AppRoutes.AJUSTES, "Ajustes", Icons.Default.Settings),
     Destino(AppRoutes.REGISTRO, "Registro", Icons.Default.PersonAdd),
+    Destino(AppRoutes.SERVIDOR, "Servidor", Icons.Default.Cloud),
 
     Destino(AppRoutes.CONTACTO, "Contacto", Icons.Default.Phone)
 
@@ -269,6 +273,10 @@ fun AppNavigation() {
                             viewModel = camaraViewModel,
                             mainViewModel = viewModel
                         )
+                    }
+                    composable(AppRoutes.SERVIDOR) {
+                        val gestionViewModel: GestionViewModel = viewModel()
+                        GestionScreen(gestionViewModel)
                     }
                     composable(AppRoutes.AVISOS) {
                         val postViewModel: PostViewModel = viewModel()
