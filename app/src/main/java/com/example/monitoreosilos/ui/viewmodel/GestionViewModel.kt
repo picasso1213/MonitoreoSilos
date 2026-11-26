@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import android.util.Log
 import kotlinx.coroutines.launch
 
 data class GestionUiState(
@@ -99,6 +100,7 @@ class GestionViewModel(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
+                Log.e("Gestion", "Fallo al llamar al servidor", e)
                 _uiState.update {
                     it.copy(cargando = false, error = "No fue posible comunicarse con el servidor")
                 }

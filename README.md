@@ -80,15 +80,21 @@ Requisitos: JDK 17 o superior, Maven y Android Studio.
    **Cobertura:** `./gradlew createDebugUnitTestCoverageReport` (informe en `app/build/reports/coverage/`).
 4. **APK firmado:** `./gradlew assembleRelease`. El APK queda en `app/build/outputs/apk/release/`.
 
-## 6. APK firmado y llave
-- Llave: `keystore/monitoreo-silos.jks` · alias `monitoreosilos` · clave `silos2026` (llave de uso académico, versionada a propósito para la entrega).
-- Configuración: bloque `signingConfigs` en `app/build.gradle.kts`.
-- APK: `app/release/app-release.apk`
+## 6. Captura del APK firmado y .jks
 
-**Capturas del APK firmado y del `.jks`:**
+**APK firmado** (`app/release/app-release.apk`), verificado con `apksigner`:
 
-![APK firmado](docs/apk-firmado.png)
-![Llave jks](docs/keystore.png)
+![APK firmado](docs/apk-firmado1.png)(docs/apk-firmado2.png)
+
+**Llave generada** (`keystore/monitoreo-silos.jks`, alias `monitoreosilos`):
+
+![Keystore](docs/keystore.png)
+
+La configuración de firma está en `app/build.gradle.kts`, bloque `signingConfigs`.
+
+## Cobertura de pruebas
+
+![Cobertura](docs/cobertura.png)
 
 ## Planificación y trabajo en equipo
 - Trello: [pegar enlace del tablero]

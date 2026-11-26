@@ -19,6 +19,8 @@ import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -119,15 +121,19 @@ fun AppNavigation() {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
 
-    // --- Notificaciones: permiso (Android 13+) y aviso cuando un silo pasa a crítico ---
-    val permisoNotificaciones = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { /* si se rechaza, simplemente no se muestran avisos */ }
+    val permisos = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { /* si se rechazan, no hay avisos y la pantalla Servidor no conecta */ }
 
     LaunchedEffect(Unit) {
-        if (!NotificationHelper.tienePermiso(context)) {
-            permisoNotificaciones.launch(Manifest.permission.POST_NOTIFICATIONS)
+        val redLocal = "android.permission.ACCESS_LOCAL_NETWORK"
+        val pendientes = buildList {
+            if (!NotificationHelper.tienePermiso(context)) add(Manifest.permission.POST_NOTIFICATIONS)
+            if (ContextCompat.checkSelfPermission(context, redLocal) != PackageManager.PERMISSION_GRANTED) {
+                add(redLocal)
+            }
         }
+        if (pendientes.isNotEmpty()) permisos.launch(pendientes.toTypedArray())
     }
 
     // Se observa siempre el estado de Ajustes para respetar el switch "Alertas activadas"
