@@ -3,8 +3,8 @@
 App móvil Android (Kotlin + Jetpack Compose) para monitorear el alimento de silos en granjas avícolas y ganaderas, con dos microservicios propios en Spring Boot. Proyecto de **DSY1105 Desarrollo de Aplicaciones Móviles** (Evaluación Parcial 4, Caso 3).
 
 ## 1. Integrantes
-- [Tu nombre completo] — GitHub: `picasso1213`
-- [Nombre completo de tu compañero] — GitHub: `MaTy294`
+- Matias Ugalde — GitHub: `picasso1213`
+- Matias Vega — GitHub: `MaTy294`
 
 ## 2. Funcionalidades
 - Navegación con barra inferior y menú lateral; diseño adaptativo (Window Size Classes).
@@ -84,7 +84,8 @@ Requisitos: JDK 17 o superior, Maven y Android Studio.
 
 **APK firmado** (`app/release/app-release.apk`), verificado con `apksigner`:
 
-![APK firmado](docs/apk-firmado1.png)(docs/apk-firmado2.png)
+![APK firmado 1](docs/apk-firmado1.png)
+![APK firmado 2](docs/apk-firmado2.png)
 
 **Llave generada** (`keystore/monitoreo-silos.jks`, alias `monitoreosilos`):
 
