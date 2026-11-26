@@ -98,5 +98,5 @@ La configuración de firma está en `app/build.gradle.kts`, bloque `signingConfi
 ![Cobertura](docs/cobertura.png)
 
 ## Planificación y trabajo en equipo
-- Trello: [pegar enlace del tablero]
+- Trello (https://trello.com/b/PkkhkjLs/monitoreo-de-silos-dsy1105-ep4)
 - Ramas por funcionalidad en GitHub y commits de ambos integrantes.
