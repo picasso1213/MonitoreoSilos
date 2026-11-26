@@ -1,8 +1,11 @@
 package com.example.monitoreosilos.ui.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.content.Context
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.monitoreosilos.data.PreferenciasRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,10 +16,14 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class AjustesViewModel(
-    application: Application
-) : AndroidViewModel(application) {
+    private val repositorio: PreferenciasRepository
+) : ViewModel() {
 
-    private val repositorio = PreferenciasRepository(application)
+    companion object {
+        fun factory(context: Context): ViewModelProvider.Factory = viewModelFactory {
+            initializer { AjustesViewModel(PreferenciasRepository(context.applicationContext)) }
+        }
+    }
 
     // Texto que se está escribiendo (todavía no guardado)
     private val nombreEditable = MutableStateFlow("")

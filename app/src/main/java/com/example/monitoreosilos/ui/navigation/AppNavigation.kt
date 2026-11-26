@@ -102,13 +102,13 @@ private val destinosDrawer = destinosBarra + listOf(
 fun AppNavigation() {
     val context = LocalContext.current
     val navController = rememberNavController()
-    val viewModel: MainViewModel = viewModel()
+    val viewModel: MainViewModel = viewModel(factory = MainViewModel.factory(context))
 
     // ViewModel compartido entre Registro y Resumen (mismo alcance: la Activity)
     val usuarioViewModel: UsuarioViewModel = viewModel()
 
     // ViewModel de preferencias (DataStore), compartido por Ajustes y Alertas
-    val ajustesViewModel: AjustesViewModel = viewModel()
+    val ajustesViewModel: AjustesViewModel = viewModel(factory = AjustesViewModel.factory(context))
 
     // ViewModel de la evidencia fotográfica (cámara y galería)
     val camaraViewModel: CamaraGaleriaViewModel = viewModel()

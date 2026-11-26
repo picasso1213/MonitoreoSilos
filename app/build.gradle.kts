@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
+    id("jacoco")
 }
 
 android {
@@ -80,4 +81,41 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
+
 }
+jacoco {
+    toolVersion = "0.8.14"
+}
+
+// Cobertura de la lógica: ViewModels, repositorios probables en JVM y reglas de Silo.
+// Excluye Compose, Room, DataStore y navegación, que necesitan el runtime de Android.
+tasks.register<JacocoReport>("jacocoLogicaReport") {
+    group = "verification"
+    description = "Cobertura de la lógica (ViewModel, Repository, Silo)"
+    dependsOn("testDebugUnitTest")
+
+    val build = layout.buildDirectory
+    executionData.setFrom(
+        fileTree(build) { include("outputs/unit_test_code_coverage/**/*.exec", "jacoco/*.exec") }
+    )
+    classDirectories.setFrom(
+        fileTree(build) {
+            include(
+                "**/kotlin-classes/debug/**/ui/viewmodel/*ViewModel*.class",
+                "**/built_in_kotlinc/debug/**/ui/viewmodel/*ViewModel*.class",
+                "**/kotlin-classes/debug/**/data/repository/*.class",
+                "**/built_in_kotlinc/debug/**/data/repository/*.class",
+                "**/kotlin-classes/debug/**/data/model/Silo.class",
+                "**/built_in_kotlinc/debug/**/data/model/Silo.class"
+            )
+            exclude("**/*Companion*.class")
+        }
+    )
+    sourceDirectories.setFrom(files("src/main/java"))
+
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+    }
+}
+

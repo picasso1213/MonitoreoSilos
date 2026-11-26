@@ -1,7 +1,10 @@
 package com.example.monitoreosilos.ui.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.content.Context
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.lifecycle.viewModelScope
 import com.example.monitoreosilos.data.SilosRepository
 import com.example.monitoreosilos.data.local.AppDatabase
@@ -19,11 +22,17 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class MainViewModel(val repositorio: SilosRepository) : ViewModel() {
+
+    companion object {
+        fun factory(context: Context): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                MainViewModel(SilosRepository(AppDatabase.obtener(context.applicationContext)))
+            }
+        }
+    }
 
     // Los silos viven en la base de datos local (Room); el repositorio los expone como Flow
-    val repositorio = SilosRepository(AppDatabase.obtener(application))
-
     val silos: StateFlow<List<Silo>> = repositorio.silos
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
